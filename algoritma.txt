@@ -1,0 +1,43 @@
+              +-----------------------+
+              |   MongoDB Database    |
+              |-----------------------|
+              | Users, Apps,         |
+              | Messages, Matches,   |
+              | Locations, Templates |
+              +-----------------------+
+                        ↑
+                        |
+            (veri sorguları - kullanıcı durumu)
+
+                        ↓
+            +----------------------+
+            |     Cron Job        |  ← (node-cron ile 00:00'da tetiklenir)
+            |----------------------|
+            | Kullanıcı davranışı | → Eşleşme var mı? Mesaj okundu mu?
+            | EmailTemplate seçimi|
+            | EmailSchedules yaz  |
+            +----------------------+
+                        ↓
+                +------------------+
+                |   RabbitMQ Queue |
+                |------------------|
+                | Kategoriye özel  |
+                | mail görevleri   |
+                +------------------+
+                        ↓
+                +------------------+
+                |     Worker       |  ← Kuyruğu dinler
+                |------------------|
+                | Template'i alır  |
+                | Kişiselleştirir  |
+                | Mail gönderir    |
+                | EmailLogs yazar  |
+                +------------------+
+                        ↓
+                 +-----------------+
+                 |   EmailLogs     |
+                 |-----------------|
+                 | Gönderildi mi?  |
+                 | Ne zaman okundu?|
+                 +-----------------+
+
