@@ -20,7 +20,7 @@ const getPriorityForCategory = (category) => {
 };
 
 const scheduleEmails = async () => {
-  console.log('📩 Cron başladı: Kategori bazlı tetikleyiciler işleniyor...');
+  console.log('Cron başladı: Kategori bazlı tetikleyiciler işleniyor...');
 
   const users = await User.find({ status: 'active' });
 
